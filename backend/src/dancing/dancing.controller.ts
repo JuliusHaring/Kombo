@@ -1,12 +1,21 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { DancingService } from './dancing.service';
-import { ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Database } from 'src/types/supabase.types';
+import {
+  Combination,
+  CombinationGenerationRequest,
+  CombinationGenerationRequestDto,
+} from './dancing.types';
+import { GenerationService } from './generation.service';
 
 @Controller('dancing')
 @ApiTags('dancing')
 export class DancingController {
-  constructor(private dancingService: DancingService) {}
+  constructor(
+    private dancingService: DancingService,
+    private generationService: GenerationService,
+  ) {}
 
   @Get('dances')
   public async getDances() {
@@ -47,5 +56,17 @@ export class DancingController {
     danceId: Database['public']['Tables']['dances']['Row']['id'],
   ) {
     return this.dancingService.getMovesForDance(danceId);
+  }
+
+  @Post('dances/:danceId/generateCombination/:length')
+  @ApiParam({ name: 'danceId', type: 'number', required: true })
+  @ApiParam({ name: 'length', type: 'number', required: true })
+  public async generateCombination(
+    @Param('danceId')
+    danceId: Database['public']['Tables']['dances']['Row']['id'],
+    @Param('length')
+    length: number,
+  ): Promise<Combination> {
+    return this.generationService.generateCombination(danceId, length);
   }
 }

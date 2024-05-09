@@ -30,6 +30,7 @@ export type Database = {
           id: number;
           is_public: boolean;
           name: string;
+          redancability: number | null;
           user_id: string | null;
         };
         Insert: {
@@ -37,6 +38,7 @@ export type Database = {
           id?: number;
           is_public?: boolean;
           name: string;
+          redancability?: number | null;
           user_id?: string | null;
         };
         Update: {
@@ -44,6 +46,7 @@ export type Database = {
           id?: number;
           is_public?: boolean;
           name?: string;
+          redancability?: number | null;
           user_id?: string | null;
         };
         Relationships: [
@@ -69,21 +72,21 @@ export type Database = {
           id: number;
           is_public: boolean;
           name: string;
-          user_id: string;
+          user_id: string | null;
         };
         Insert: {
           dance_id: number;
           id?: number;
           is_public?: boolean;
           name: string;
-          user_id: string;
+          user_id?: string | null;
         };
         Update: {
           dance_id?: number;
           id?: number;
           is_public?: boolean;
           name?: string;
-          user_id?: string;
+          user_id?: string | null;
         };
         Relationships: [
           {
@@ -108,6 +111,7 @@ export type Database = {
           id: number;
           is_public: boolean;
           name: string;
+          redancability: number | null;
           user_id: string | null;
         };
         Insert: {
@@ -115,6 +119,7 @@ export type Database = {
           id?: number;
           is_public?: boolean;
           name: string;
+          redancability?: number | null;
           user_id?: string | null;
         };
         Update: {
@@ -122,6 +127,7 @@ export type Database = {
           id?: number;
           is_public?: boolean;
           name?: string;
+          redancability?: number | null;
           user_id?: string | null;
         };
         Relationships: [

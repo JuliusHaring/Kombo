@@ -1,14 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { SupabaseService } from 'src/supabase/supabase.service';
-import { Database } from '../types/supabase.types';
+import { PublicTables } from 'src/types/database.types';
 
 @Injectable()
 export class DancingService {
   constructor(private supabaseService: SupabaseService) {}
 
-  public async getDances(): Promise<
-    Database['public']['Tables']['dances']['Row'][]
-  > {
+  public async getDances(): Promise<PublicTables['dances']['Row'][]> {
     const { data, error } = await this.supabaseService.client
       .from('dances')
       .select('*');
@@ -17,8 +15,8 @@ export class DancingService {
   }
 
   public async getTransitionsForDance(
-    danceId: Database['public']['Tables']['dances']['Row']['id'],
-  ): Promise<Database['public']['Tables']['transitions']['Row'][]> {
+    danceId: PublicTables['dances']['Row']['id'],
+  ): Promise<PublicTables['transitions']['Row'][]> {
     const { data, error } = await this.supabaseService.client
       .from('transitions')
       .select('*')
@@ -29,8 +27,8 @@ export class DancingService {
   }
 
   public async getMovesForDance(
-    danceId: Database['public']['Tables']['dances']['Row']['id'],
-  ): Promise<Database['public']['Tables']['moves']['Row'][]> {
+    danceId: PublicTables['dances']['Row']['id'],
+  ): Promise<PublicTables['moves']['Row'][]> {
     const { data, error } = await this.supabaseService.client
       .from('moves')
       .select('*')
@@ -41,8 +39,8 @@ export class DancingService {
   }
 
   public async getPositionsForDance(
-    danceId: Database['public']['Tables']['dances']['Row']['id'],
-  ): Promise<Database['public']['Tables']['positions']['Row'][]> {
+    danceId: PublicTables['dances']['Row']['id'],
+  ): Promise<PublicTables['positions']['Row'][]> {
     const { data, error } = await this.supabaseService.client
       .from('positions')
       .select('*')
