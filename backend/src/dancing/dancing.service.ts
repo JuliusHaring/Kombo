@@ -15,4 +15,40 @@ export class DancingService {
     if (error) throw error;
     return data;
   }
+
+  public async getTransitionsForDance(
+    danceId: Database['public']['Tables']['dances']['Row']['id'],
+  ): Promise<Database['public']['Tables']['transitions']['Row'][]> {
+    const { data, error } = await this.supabaseService.client
+      .from('transitions')
+      .select('*')
+      .eq('dance_id', danceId);
+
+    if (error) throw error;
+    return data;
+  }
+
+  public async getMovesForDance(
+    danceId: Database['public']['Tables']['dances']['Row']['id'],
+  ): Promise<Database['public']['Tables']['moves']['Row'][]> {
+    const { data, error } = await this.supabaseService.client
+      .from('moves')
+      .select('*')
+      .eq('dance_id', danceId);
+
+    if (error) throw error;
+    return data;
+  }
+
+  public async getPositionsForDance(
+    danceId: Database['public']['Tables']['dances']['Row']['id'],
+  ): Promise<Database['public']['Tables']['positions']['Row'][]> {
+    const { data, error } = await this.supabaseService.client
+      .from('positions')
+      .select('*')
+      .eq('dance_id', danceId);
+
+    if (error) throw error;
+    return data;
+  }
 }
