@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DancingService } from './dancing.service';
-import { Combination } from './dancing.types';
+import { Combination, CombinationElement } from './dancing.types';
+import { getRandomElement } from 'src/utils/random';
 
 @Injectable()
 export class GenerationService {
@@ -10,48 +11,55 @@ export class GenerationService {
     danceId: number,
     length: number,
   ): Promise<Combination> {
-    const elementRetrievers = [
-      () => this.dancingService.getMovesForDance(danceId),
-      () => this.dancingService.getPositionsForDance(danceId),
-      () => this.dancingService.getTransitionsForDance(danceId),
-    ];
-    const combination: Combination = [];
+    const elements = {
+      moves: await this.dancingService.getMovesForDance(danceId),
+      positions: await this.dancingService.getPositionsForDance(danceId),
+      transitions: await this.dancingService.getTransitionsForDance(danceId),
+    };
+
+    let combination: CombinationElement[] = [];
+    let lastType: string = null;
+    let lastElement: string = null;
 
     while (combination.length < length) {
-      const elementRetriever =
-        elementRetrievers[Math.floor(Math.random() * elementRetrievers.length)];
-      const elements = await elementRetriever();
+      const nextType =
+        combination.length > 0
+          ? this.determineNextType(lastElement, lastType)
+          : 'position';
+      let nextElement = this.selectElementBasedOnType(
+        nextType,
+        lastElement,
+        elements,
+      );
 
-      if (elements.length > 0) {
-        const selectedElement = this.simpleRandomSelection(elements);
-        combination.push(selectedElement);
-      }
+      combination.push(nextElement);
+      lastElement = nextElement;
+      lastType = nextType;
     }
-
     return combination;
   }
 
-  private simpleRandomSelection(elements: Array<any>): any {
-    // Adjusted selection logic
-    if (!elements[0].redancability) {
-      // If there's no redancability field, select randomly
-      return elements[Math.floor(Math.random() * elements.length)];
+  private determineNextType(lastElement: any, lastType: string): string {
+    if (lastType === 'position') {
+      return 'transition';
     } else {
-      // If there's a redancability field, use it to influence the selection
-      const totalWeight = elements.reduce(
-        (acc, el) => acc + el.redancability,
-        0,
+      return getRandomElement(
+        ['move', 'position', 'transition'],
+        [0.7, 0.1, 0.2],
       );
-      let random = Math.random() * totalWeight;
-
-      for (const element of elements) {
-        random -= element.redancability;
-        if (random <= 0) {
-          return element;
-        }
-      }
-      // Fallback to first element if random selection fails
-      return elements[0];
     }
+  }
+
+  private selectElementBasedOnType(
+    type: string,
+    lastElement: any,
+    elements: any,
+  ): any {
+    const typeElements = elements[`${type}s`];
+
+    if (lastElement && Math.random() < lastElement.redancability) {
+      return lastElement;
+    }
+    return getRandomElement(typeElements);
   }
 }
