@@ -1,13 +1,9 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Param, Post } from '@nestjs/common';
 import { DancingService } from './dancing.service';
-import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiParam, ApiTags } from '@nestjs/swagger';
 import { Database } from 'src/types/supabase.types';
-import {
-  Combination,
-  CombinationGenerationRequest,
-  CombinationGenerationRequestDto,
-} from './dancing.types';
 import { GenerationService } from './generation.service';
+import { Combination } from './dancing.types';
 
 @Controller('dancing')
 @ApiTags('dancing')
@@ -31,7 +27,7 @@ export class DancingController {
     @Param('danceId')
     danceId: Database['public']['Tables']['dances']['Row']['id'],
   ) {
-    return this.dancingService.getPositionsForDance(danceId);
+    return this.dancingService.getElementsForDance(danceId, 'position');
   }
 
   @Get('dances/:danceId/transitions')
@@ -43,7 +39,7 @@ export class DancingController {
     @Param('danceId')
     danceId: Database['public']['Tables']['dances']['Row']['id'],
   ) {
-    return this.dancingService.getTransitionsForDance(danceId);
+    return this.dancingService.getElementsForDance(danceId, 'transition');
   }
 
   @Get('dances/:danceId/moves')
@@ -55,7 +51,7 @@ export class DancingController {
     @Param('danceId')
     danceId: Database['public']['Tables']['dances']['Row']['id'],
   ) {
-    return this.dancingService.getMovesForDance(danceId);
+    return this.dancingService.getElementsForDance(danceId, 'move');
   }
 
   @Post('dances/:danceId/generateCombination/:length')

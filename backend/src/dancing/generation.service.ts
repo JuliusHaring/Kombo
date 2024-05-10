@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { DancingService } from './dancing.service';
-import { Combination, CombinationElement } from './dancing.types';
+import { Combination } from './dancing.types';
 import { getRandomElement } from 'src/utils/random';
+import { PublicTables } from 'src/types/database.types';
 
 @Injectable()
 export class GenerationService {
@@ -13,54 +14,58 @@ export class GenerationService {
   ): Promise<Combination> {
     await this.dancingService.checkDanceExists(danceId);
     const elements = {
-      moves: await this.dancingService.getMovesForDance(danceId),
-      positions: await this.dancingService.getPositionsForDance(danceId),
-      transitions: await this.dancingService.getTransitionsForDance(danceId),
+      moves: await this.dancingService.getElementsForDance(danceId, 'move'),
+      positions: await this.dancingService.getElementsForDance(
+        danceId,
+        'position',
+      ),
+      transitions: await this.dancingService.getElementsForDance(
+        danceId,
+        'transition',
+      ),
     };
 
-    let combination: CombinationElement[] = [];
+    let combination: Combination = [];
     let lastType: string = null;
-    let lastElement: string = null;
+    let nextElement: PublicTables['combination_elements']['Row'];
 
     while (combination.length < length) {
-      const nextType =
-        combination.length > 0
-          ? this.determineNextType(lastElement, lastType)
-          : 'position';
-      let nextElement = this.selectElementBasedOnType(
-        nextType,
-        lastElement,
-        elements,
-      );
+      let nextType =
+        combination.length === 0
+          ? 'position'
+          : this.determineNextType(lastType);
+
+      const nextElement = this.determineNextElement(elements[`${nextType}s`]);
 
       combination.push(nextElement);
-      lastElement = nextElement;
       lastType = nextType;
     }
     return combination;
   }
 
-  private determineNextType(lastElement: any, lastType: string): string {
+  private determineNextType(lastType: string): string {
+    // Determines the type of the next element based on the last element's type
     if (lastType === 'position') {
-      return 'transition';
+      return 'transition'; // A transition must follow a position
     } else {
+      // Randomly decide between 'move', 'position', and 'transition', with more bias towards 'move'
       return getRandomElement(
         ['move', 'position', 'transition'],
-        [0.7, 0.1, 0.2],
+        [0.75, 0.1, 0.15],
       );
     }
   }
 
-  private selectElementBasedOnType(
-    type: string,
-    lastElement: any,
-    elements: any,
-  ): any {
-    const typeElements = elements[`${type}s`];
-
-    if (lastElement && Math.random() < lastElement.redancability) {
-      return lastElement;
+  private determineNextElement(
+    applicableElements: PublicTables['combination_elements']['Row'][],
+  ): PublicTables['combination_elements']['Row'] {
+    if (applicableElements.some((el) => Number.isNaN(el.redancability))) {
+      return getRandomElement(applicableElements);
+    } else {
+      return getRandomElement(
+        applicableElements,
+        applicableElements.map((el) => el.redancability),
+      );
     }
-    return getRandomElement(typeElements);
   }
 }

@@ -25,43 +25,17 @@ export class DancingService {
     return data;
   }
 
-  public async getTransitionsForDance(
+  public async getElementsForDance(
     danceId: PublicTables['dances']['Row']['id'],
-  ): Promise<PublicTables['transitions']['Row'][]> {
+    type: 'transition' | 'move' | 'position',
+  ): Promise<PublicTables['combination_elements']['Row'][]> {
     await this.checkDanceExists(danceId);
 
     const { data, error } = await this.supabaseService.client
-      .from('transitions')
+      .from('combination_elements')
       .select('*')
-      .eq('dance_id', danceId);
-
-    if (error) throw error;
-    return data;
-  }
-
-  public async getMovesForDance(
-    danceId: PublicTables['dances']['Row']['id'],
-  ): Promise<PublicTables['moves']['Row'][]> {
-    await this.checkDanceExists(danceId);
-
-    const { data, error } = await this.supabaseService.client
-      .from('moves')
-      .select('*')
-      .eq('dance_id', danceId);
-
-    if (error) throw error;
-    return data;
-  }
-
-  public async getPositionsForDance(
-    danceId: PublicTables['dances']['Row']['id'],
-  ): Promise<PublicTables['positions']['Row'][]> {
-    await this.checkDanceExists(danceId);
-
-    const { data, error } = await this.supabaseService.client
-      .from('positions')
-      .select('*')
-      .eq('dance_id', danceId);
+      .eq('dance_id', danceId)
+      .eq('type', type);
 
     if (error) throw error;
     return data;

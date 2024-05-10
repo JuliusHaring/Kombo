@@ -9,6 +9,48 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      combination_elements: {
+        Row: {
+          dance_id: number;
+          id: number;
+          name: string;
+          redancability: number | null;
+          type: string;
+          user_id: string | null;
+        };
+        Insert: {
+          dance_id: number;
+          id?: number;
+          name: string;
+          redancability?: number | null;
+          type: string;
+          user_id?: string | null;
+        };
+        Update: {
+          dance_id?: number;
+          id?: number;
+          name?: string;
+          redancability?: number | null;
+          type?: string;
+          user_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'combination_elements_dance_id_fkey';
+            columns: ['dance_id'];
+            isOneToOne: false;
+            referencedRelation: 'dances';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'combination_elements_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       dances: {
         Row: {
           id: number;
@@ -23,129 +65,6 @@ export type Database = {
           name?: string | null;
         };
         Relationships: [];
-      };
-      moves: {
-        Row: {
-          dance_id: number;
-          id: number;
-          is_public: boolean;
-          name: string;
-          redancability: number | null;
-          user_id: string | null;
-        };
-        Insert: {
-          dance_id: number;
-          id?: number;
-          is_public?: boolean;
-          name: string;
-          redancability?: number | null;
-          user_id?: string | null;
-        };
-        Update: {
-          dance_id?: number;
-          id?: number;
-          is_public?: boolean;
-          name?: string;
-          redancability?: number | null;
-          user_id?: string | null;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'moves_dance_id_fkey';
-            columns: ['dance_id'];
-            isOneToOne: false;
-            referencedRelation: 'dances';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'moves_user_id_fkey';
-            columns: ['user_id'];
-            isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
-          },
-        ];
-      };
-      positions: {
-        Row: {
-          dance_id: number;
-          id: number;
-          is_public: boolean;
-          name: string;
-          user_id: string | null;
-        };
-        Insert: {
-          dance_id: number;
-          id?: number;
-          is_public?: boolean;
-          name: string;
-          user_id?: string | null;
-        };
-        Update: {
-          dance_id?: number;
-          id?: number;
-          is_public?: boolean;
-          name?: string;
-          user_id?: string | null;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'positions_dance_id_fkey';
-            columns: ['dance_id'];
-            isOneToOne: false;
-            referencedRelation: 'dances';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'positions_user_id_fkey';
-            columns: ['user_id'];
-            isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
-          },
-        ];
-      };
-      transitions: {
-        Row: {
-          dance_id: number;
-          id: number;
-          is_public: boolean;
-          name: string;
-          redancability: number | null;
-          user_id: string | null;
-        };
-        Insert: {
-          dance_id: number;
-          id?: number;
-          is_public?: boolean;
-          name: string;
-          redancability?: number | null;
-          user_id?: string | null;
-        };
-        Update: {
-          dance_id?: number;
-          id?: number;
-          is_public?: boolean;
-          name?: string;
-          redancability?: number | null;
-          user_id?: string | null;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'transitions_dance_id_fkey';
-            columns: ['dance_id'];
-            isOneToOne: false;
-            referencedRelation: 'dances';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'transitions_user_id_fkey';
-            columns: ['user_id'];
-            isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
-          },
-        ];
       };
     };
     Views: {
