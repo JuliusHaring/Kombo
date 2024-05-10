@@ -54,15 +54,22 @@ export class DancingController {
     return this.dancingService.getElementsForDance(danceId, 'move');
   }
 
-  @Post('dances/:danceId/generateCombination/:length')
+  @Post('dances/:danceId/generateCombination/:length/:difficulty')
   @ApiParam({ name: 'danceId', type: 'number', required: true })
   @ApiParam({ name: 'length', type: 'number', required: true })
+  @ApiParam({ name: 'difficulty', type: 'number', required: true })
   public async generateCombination(
     @Param('danceId')
     danceId: Database['public']['Tables']['dances']['Row']['id'],
     @Param('length')
     length: number,
+    @Param('difficulty')
+    difficulty: number,
   ): Promise<Combination> {
-    return this.generationService.generateCombination(danceId, length);
+    return this.generationService.generateCombination(
+      danceId,
+      length,
+      difficulty,
+    );
   }
 }

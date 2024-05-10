@@ -12,6 +12,7 @@ export class GenerationService {
   public async generateCombination(
     danceId: number,
     length: number,
+    difficulty: number = 1,
   ): Promise<Combination> {
     await this.dancingService.checkDanceExists(danceId);
 
@@ -33,6 +34,7 @@ export class GenerationService {
         await this.dancingService.getElementsForDanceOrThrow(
           danceId,
           nextType,
+          difficulty,
           lastElementId,
         );
 

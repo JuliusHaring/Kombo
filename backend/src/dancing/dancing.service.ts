@@ -29,6 +29,7 @@ export class DancingService {
   public async getElementsForDance(
     danceId: PublicTables['dances']['Row']['id'],
     type: CombinationElementType,
+    difficulty: number = 1,
     previousId: PublicTables['dances']['Row']['id'] = null,
   ): Promise<PublicTables['combination_elements']['Row'][]> {
     await this.checkDanceExists(danceId);
@@ -38,37 +39,19 @@ export class DancingService {
       .from('combination_elements')
       .select('*')
       .eq('dance_id', danceId)
-      .eq('type', type);
+      .eq('type', type)
+      .lte('difficulty', difficulty);
 
     // If a previous element is specified, filter based on constraints
     if (previousId) {
       // Fetch constraints that apply to the previous element
-      const constraints = await this.supabaseService.client
+      const { data, error } = await this.supabaseService.client
         .from('combination_element_constraints')
         .select('*')
         .eq('element_1', previousId);
 
-      const forbiddenIds = [];
-      const requiredIds = [];
-
-      constraints.data.forEach((constraint) => {
-        if (constraint.type_forbid) {
-          // If the constraint forbids this combination, add to forbidden list
-          forbiddenIds.push(constraint.element_2);
-        } else {
-          // If the constraint requires this combination, add to required list
-          requiredIds.push(constraint.element_2);
-        }
-      });
-
-      if (requiredIds.length > 0) {
-        // If there are required elements, filter to include only these
-        query = query.in('id', requiredIds);
-      }
-      if (forbiddenIds.length > 0) {
-        // Exclude any forbidden elements if no required elements are specified
-        query = query.not('id', 'in', `(${forbiddenIds})`);
-      }
+      // Exclude any forbidden elements if no required elements are specified
+      query = query.not('id', 'in', `(${data.map((el) => el.element_2)})`);
     }
 
     const { data, error } = await query;
@@ -79,9 +62,15 @@ export class DancingService {
   public async getElementsForDanceOrThrow(
     danceId: PublicTables['dances']['Row']['id'],
     type: CombinationElementType,
+    difficulty: number = 1,
     previousId: PublicTables['dances']['Row']['id'] = null,
   ): Promise<PublicTables['combination_elements']['Row'][]> {
-    const results = await this.getElementsForDance(danceId, type, previousId);
+    const results = await this.getElementsForDance(
+      danceId,
+      type,
+      difficulty,
+      previousId,
+    );
 
     if (results.length === 0) {
       throw new NotFoundException(
