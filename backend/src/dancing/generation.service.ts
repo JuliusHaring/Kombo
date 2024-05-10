@@ -11,6 +11,7 @@ export class GenerationService {
     danceId: number,
     length: number,
   ): Promise<Combination> {
+    await this.dancingService.checkDanceExists(danceId);
     const elements = {
       moves: await this.dancingService.getMovesForDance(danceId),
       positions: await this.dancingService.getPositionsForDance(danceId),
