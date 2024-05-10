@@ -5,7 +5,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
-  
+
   const app = await NestFactory.create(AppModule);
 
   const corsOrigin = process.env['CORS_ORIGIN'];
@@ -17,7 +17,6 @@ async function bootstrap() {
     origin: process.env['CORS_ORIGIN'],
     credentials: true,
   });
-
 
   const config = new DocumentBuilder()
     .setTitle('Kombo')
