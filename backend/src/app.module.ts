@@ -7,9 +7,16 @@ import { SupabaseModule } from './supabase/supabase.module';
 import { HTTPLoggingMiddleware } from './middlewares/http-logging.middleware';
 import { JsonBodyMiddleware } from './middlewares/json-body.middleware';
 import { RawBodyMiddleware } from './middlewares/raw-body.middleware';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 100,
+      },
+    ]),
     ConfigModule.forRoot({ isGlobal: true }),
     AuthModule,
     DancingModule,
