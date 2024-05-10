@@ -34,6 +34,13 @@ export class SupabaseService {
     const supabaseUrl = this.configService.getOrThrow<string>('SUPABASE_URL');
     const supabaseKey = this.configService.getOrThrow<string>('SUPABASE_KEY');
 
-    this.supabaseClient = createClient(supabaseUrl, supabaseKey);
+    this.supabaseClient = createClient(supabaseUrl, supabaseKey, clientOptions);
+    this.supabaseClient.auth.getUser().then((u) => console.log(u));
+  }
+
+  public async getUserIdByRequest(): Promise<string> {
+    const { data, error } = await this.client.auth.getUser();
+    if (error) throw error;
+    return data.user.id;
   }
 }

@@ -80,4 +80,6 @@ export class DancingService {
 
     return results;
   }
+
+  public async addConstraint() {}
 }

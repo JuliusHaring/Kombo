@@ -1,6 +1,11 @@
 import { Controller, Get, Param, Post } from '@nestjs/common';
 import { DancingService } from './dancing.service';
-import { ApiParam, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiParam,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { Database } from 'src/types/supabase.types';
 import { GenerationService } from './generation.service';
 import { Combination } from './dancing.types';
@@ -14,12 +19,14 @@ export class DancingController {
     private generationService: GenerationService,
   ) {}
 
-  @Get('dances')
+  @Get('')
+  @ApiBearerAuth()
   public async getDances() {
     return this.dancingService.getDances();
   }
 
-  @Get('dances/:danceId/positions')
+  @Get(':danceId/positions')
+  @ApiBearerAuth()
   @ApiParam({
     name: 'danceId',
     required: true,
@@ -31,7 +38,8 @@ export class DancingController {
     return this.dancingService.getElementsForDance(danceId, 'position');
   }
 
-  @Get('dances/:danceId/transitions')
+  @Get(':danceId/transitions')
+  @ApiBearerAuth()
   @ApiParam({
     name: 'danceId',
     required: true,
@@ -43,7 +51,8 @@ export class DancingController {
     return this.dancingService.getElementsForDance(danceId, 'transition');
   }
 
-  @Get('dances/:danceId/moves')
+  @Get(':danceId/moves')
+  @ApiBearerAuth()
   @ApiParam({
     name: 'danceId',
     required: true,
@@ -55,7 +64,7 @@ export class DancingController {
     return this.dancingService.getElementsForDance(danceId, 'move');
   }
 
-  @Post('dances/:danceId/generateCombination/:length/:difficulty')
+  @Post(':danceId/generateCombination/:length/:difficulty')
   @AllowUnauthorizedRequest()
   @ApiParam({ name: 'danceId', type: 'number', required: true })
   @ApiParam({ name: 'length', type: 'number', required: true })

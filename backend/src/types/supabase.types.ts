@@ -15,21 +15,21 @@ export type Database = {
           element_1: number | null;
           element_2: number | null;
           id: number;
-          type_forbid: boolean | null;
+          user_id: string | null;
         };
         Insert: {
           dance_id?: number | null;
           element_1?: number | null;
           element_2?: number | null;
           id?: number;
-          type_forbid?: boolean | null;
+          user_id?: string | null;
         };
         Update: {
           dance_id?: number | null;
           element_1?: number | null;
           element_2?: number | null;
           id?: number;
-          type_forbid?: boolean | null;
+          user_id?: string | null;
         };
         Relationships: [
           {
@@ -37,6 +37,13 @@ export type Database = {
             columns: ['dance_id'];
             isOneToOne: false;
             referencedRelation: 'dances';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'combination_element_constraints_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
             referencedColumns: ['id'];
           },
           {
@@ -58,6 +65,7 @@ export type Database = {
       combination_elements: {
         Row: {
           dance_id: number;
+          difficulty: number | null;
           id: number;
           name: string;
           redancability: number | null;
@@ -66,6 +74,7 @@ export type Database = {
         };
         Insert: {
           dance_id: number;
+          difficulty?: number | null;
           id?: number;
           name: string;
           redancability?: number | null;
@@ -74,6 +83,7 @@ export type Database = {
         };
         Update: {
           dance_id?: number;
+          difficulty?: number | null;
           id?: number;
           name?: string;
           redancability?: number | null;
