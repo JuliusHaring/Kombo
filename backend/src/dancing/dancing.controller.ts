@@ -4,6 +4,7 @@ import { ApiParam, ApiTags } from '@nestjs/swagger';
 import { Database } from 'src/types/supabase.types';
 import { GenerationService } from './generation.service';
 import { Combination } from './dancing.types';
+import { AllowUnauthorizedRequest } from 'src/auth/allow-unauthorized-requests';
 
 @Controller('dancing')
 @ApiTags('dancing')
@@ -55,6 +56,7 @@ export class DancingController {
   }
 
   @Post('dances/:danceId/generateCombination/:length/:difficulty')
+  @AllowUnauthorizedRequest()
   @ApiParam({ name: 'danceId', type: 'number', required: true })
   @ApiParam({ name: 'length', type: 'number', required: true })
   @ApiParam({ name: 'difficulty', type: 'number', required: true })
