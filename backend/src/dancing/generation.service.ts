@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { DancingService } from './dancing.service';
-import { Combination } from './dancing.types';
+import { Combination, CombinationElementType } from './dancing.types';
 import { getRandomElement } from 'src/utils/random';
 import { PublicTables } from 'src/types/database.types';
+import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class GenerationService {
@@ -13,29 +14,29 @@ export class GenerationService {
     length: number,
   ): Promise<Combination> {
     await this.dancingService.checkDanceExists(danceId);
-    const elements = {
-      moves: await this.dancingService.getElementsForDance(danceId, 'move'),
-      positions: await this.dancingService.getElementsForDance(
-        danceId,
-        'position',
-      ),
-      transitions: await this.dancingService.getElementsForDance(
-        danceId,
-        'transition',
-      ),
-    };
 
     let combination: Combination = [];
     let lastType: string = null;
-    let nextElement: PublicTables['combination_elements']['Row'];
 
     while (combination.length < length) {
-      let nextType =
+      let nextType: CombinationElementType =
         combination.length === 0
           ? 'position'
           : this.determineNextType(lastType);
 
-      const nextElement = this.determineNextElement(elements[`${nextType}s`]);
+      const lastElementId =
+        combination.length === 0
+          ? null
+          : combination[combination.length - 1].id;
+
+      const applicableElements =
+        await this.dancingService.getElementsForDanceOrThrow(
+          danceId,
+          nextType,
+          lastElementId,
+        );
+
+      const nextElement = this.determineNextElement(applicableElements);
 
       combination.push(nextElement);
       lastType = nextType;
@@ -43,7 +44,7 @@ export class GenerationService {
     return combination;
   }
 
-  private determineNextType(lastType: string): string {
+  private determineNextType(lastType: string): CombinationElementType {
     // Determines the type of the next element based on the last element's type
     if (lastType === 'position') {
       return 'transition'; // A transition must follow a position

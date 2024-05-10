@@ -9,6 +9,52 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      combination_element_constraints: {
+        Row: {
+          dance_id: number | null;
+          element_1: number | null;
+          element_2: number | null;
+          id: number;
+          type_forbid: boolean | null;
+        };
+        Insert: {
+          dance_id?: number | null;
+          element_1?: number | null;
+          element_2?: number | null;
+          id?: number;
+          type_forbid?: boolean | null;
+        };
+        Update: {
+          dance_id?: number | null;
+          element_1?: number | null;
+          element_2?: number | null;
+          id?: number;
+          type_forbid?: boolean | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'combination_element_constraints_dance_id_fkey';
+            columns: ['dance_id'];
+            isOneToOne: false;
+            referencedRelation: 'dances';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'fk_element1';
+            columns: ['element_1'];
+            isOneToOne: false;
+            referencedRelation: 'combination_elements';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'fk_element2';
+            columns: ['element_2'];
+            isOneToOne: false;
+            referencedRelation: 'combination_elements';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       combination_elements: {
         Row: {
           dance_id: number;
