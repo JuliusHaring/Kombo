@@ -7,6 +7,7 @@ import {
   createClient,
 } from '@supabase/supabase-js';
 import { ExtractJwt } from 'passport-jwt';
+import { Database } from 'src/types/supabase.types';
 
 @Injectable({ scope: Scope.REQUEST })
 export class SupabaseService {
@@ -34,8 +35,11 @@ export class SupabaseService {
     const supabaseUrl = this.configService.getOrThrow<string>('SUPABASE_URL');
     const supabaseKey = this.configService.getOrThrow<string>('SUPABASE_KEY');
 
-    this.supabaseClient = createClient(supabaseUrl, supabaseKey, clientOptions);
-    this.supabaseClient.auth.getUser().then((u) => console.log(u));
+    this.supabaseClient = createClient<Database>(
+      supabaseUrl,
+      supabaseKey,
+      clientOptions,
+    );
   }
 
   public async getUserIdByRequest(): Promise<string> {
