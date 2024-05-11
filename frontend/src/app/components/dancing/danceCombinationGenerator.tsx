@@ -1,6 +1,9 @@
 'use client';
 import React, { useState } from 'react';
 import dancingService from '../../services/dancingService';
+import Form from '../base/form';
+import Input from '../base/input';
+import Button from '../base/button';
 
 interface Props {
   danceId: string;
@@ -13,7 +16,8 @@ const DanceCombinationGenerator: React.FC<Props> = ({ danceId }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleGenerate = async () => {
+  const handleGenerate = async (e: React.FormEvent) => {
+    e.preventDefault();
     setLoading(true);
     setError('');
     try {
@@ -31,27 +35,22 @@ const DanceCombinationGenerator: React.FC<Props> = ({ danceId }) => {
   };
 
   return (
-    <div>
-      <div>
-        <label>Length:</label>
-        <input
-          type="number"
-          value={length}
-          onChange={(e) => setLength(parseInt(e.target.value, 10))}
-        />
-        <label>Difficulty:</label>
-        <input
-          type="number"
-          value={difficulty}
-          onChange={(e) => setDifficulty(parseInt(e.target.value, 10))}
-        />
-      </div>
-      <button onClick={handleGenerate} disabled={loading}>
-        {loading ? 'Generating...' : 'Generate Combination'}
-      </button>
-      {combination && <div>{JSON.stringify(combination)}</div>}
-      {error && <div style={{ color: 'red' }}>{error}</div>}
-    </div>
+    <Form onSubmit={handleGenerate} className="space-y-4">
+      <Input
+        label="Length"
+        type="number"
+        value={length}
+        onChange={(e) => setLength(parseInt(e.target.value, 10))}
+      />
+      <Input
+        label="Difficulty"
+        type="number"
+        value={difficulty}
+        onChange={(e) => setDifficulty(parseInt(e.target.value, 10))}
+      />
+      <Button type="submit">Generate Combination</Button>
+      {error && <div className="text-red-500">{error}</div>}
+    </Form>
   );
 };
 

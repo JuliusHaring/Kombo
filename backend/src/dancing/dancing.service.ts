@@ -8,12 +8,14 @@ export class DancingService {
   constructor(private supabaseService: SupabaseService) {}
 
   public async checkDanceExists(danceId: PublicTables['dances']['Row']['id']) {
-    const { data } = await this.supabaseService.client
+    const { data, error } = await this.supabaseService.client
       .from('dances')
       .select('*')
       .eq('id', danceId);
 
-    if (data.length === 0) {
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
       throw new NotFoundException(`Dance ${danceId} not found`);
     }
   }
