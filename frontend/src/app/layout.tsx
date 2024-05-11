@@ -17,9 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <SideNav />
-        {children}
+      <body className={`${inter.className} flex min-h-screen bg-beige-100`}>
+        <div className="fixed bottom-0 left-0 top-0 z-50 w-16 transition-all duration-300 ease-in-out hover:w-64">
+          <SideNav />
+        </div>
+        <div className="ml-20 mt-5 flex-grow">{children}</div>
       </body>
     </html>
   );
