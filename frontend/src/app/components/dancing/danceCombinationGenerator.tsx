@@ -1,9 +1,9 @@
 'use client';
 import React, { useState } from 'react';
 import dancingService from '../../services/dancingService';
-import Form from '../base/form';
-import Input from '../base/input';
-import Button from '../base/button';
+import Form from '../base/Form';
+import Input from '../base/Input';
+import Button from '../base/Button';
 
 interface Props {
   danceId: string;

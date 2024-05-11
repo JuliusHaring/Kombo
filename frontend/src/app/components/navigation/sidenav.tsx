@@ -1,4 +1,4 @@
-import { SideNavItem } from './sidenavitem';
+import { SideNavItem } from './SideNavItem';
 
 export default function SideNav() {
   return (

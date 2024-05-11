@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import { SideNavIcon } from './sidenavicon';
+import { SideNavIcon } from './SideNavIcon';
 
 interface SideNavItemProps {
   href: string;

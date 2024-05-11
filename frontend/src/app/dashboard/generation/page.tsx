@@ -1,6 +1,6 @@
-import DanceCombinationGenerator from '../../components/dancing/danceCombinationGenerator';
-import { Container } from '../../components/base/container';
-import { Header } from '../../components/base/header';
+import DanceCombinationGenerator from '../../components/dancing/DanceCombinationGenerator';
+import { Container } from '../../components/base/Container';
+import { Header } from '../../components/base/Header';
 
 export default function Generation() {
   return (
