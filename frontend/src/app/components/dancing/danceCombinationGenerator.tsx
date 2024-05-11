@@ -7,12 +7,15 @@ import Button from '../base/Button';
 
 interface Props {
   danceId: string;
+  setCombination: (combination: any) => void;
 }
 
-const DanceCombinationGenerator: React.FC<Props> = ({ danceId }) => {
+const DanceCombinationGenerator: React.FC<Props> = ({
+  danceId,
+  setCombination,
+}) => {
   const [length, setLength] = useState(5); // Default value or based on user input
   const [difficulty, setDifficulty] = useState(4); // Default value or based on user input
-  const [combination, setCombination] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
