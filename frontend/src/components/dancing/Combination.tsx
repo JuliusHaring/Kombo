@@ -1,13 +1,13 @@
 import { PublicTables } from '@/app/types/database.types';
 import CombinationElementCard from './CombinationElementCard';
-import styles from './DanceCombinationGeneratorResult.module.css';
+import styles from './Combination.module.css';
 
-// components/DanceCombinationGenerationResult.tsx
+// components/Combination.tsx
 interface Props {
   combination: any; // Define a more specific type based on what the API returns
 }
 
-const DanceCombinationGenerationResult: React.FC<Props> = ({ combination }) => {
+const Combination: React.FC<Props> = ({ combination }) => {
   if (!combination) return null; // Or some placeholder indicating no data
 
   return (
@@ -31,4 +31,4 @@ const DanceCombinationGenerationResult: React.FC<Props> = ({ combination }) => {
   );
 };
 
-export default DanceCombinationGenerationResult;
+export default Combination;

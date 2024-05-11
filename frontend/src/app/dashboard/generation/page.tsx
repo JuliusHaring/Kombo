@@ -1,10 +1,10 @@
 'use client';
 
-import DanceCombinationGenerator from '../../../components/dancing/DanceCombinationGenerator';
+import CombinationGenerator from '../../../components/dancing/CombinationGenerator';
 import { Container } from '../../../components/base/Container';
 import { Header } from '../../../components/base/Header';
 import { useState } from 'react';
-import DanceCombinationGenerationResult from '@/components/dancing/DanceCombinationGeneratorResult';
+import Combination from '@/components/dancing/Combination';
 
 export default function Generation() {
   const [combination, setCombination] = useState(null);
@@ -12,8 +12,8 @@ export default function Generation() {
   return (
     <Container>
       <Header size="1">Generation</Header>
-      <DanceCombinationGenerator danceId="3" setCombination={setCombination} />
-      <DanceCombinationGenerationResult combination={combination} />
+      <CombinationGenerator danceId="3" setCombination={setCombination} />
+      <Combination combination={combination} />
     </Container>
   );
 }

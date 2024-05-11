@@ -10,10 +10,7 @@ interface Props {
   setCombination: (combination: any) => void;
 }
 
-const DanceCombinationGenerator: React.FC<Props> = ({
-  danceId,
-  setCombination,
-}) => {
+const CombinationGenerator: React.FC<Props> = ({ danceId, setCombination }) => {
   const [length, setLength] = useState(5); // Default value or based on user input
   const [difficulty, setDifficulty] = useState(4); // Default value or based on user input
   const [loading, setLoading] = useState(false);
@@ -57,4 +54,4 @@ const DanceCombinationGenerator: React.FC<Props> = ({
   );
 };
 
-export default DanceCombinationGenerator;
+export default CombinationGenerator;
