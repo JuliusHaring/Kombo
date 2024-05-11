@@ -1,9 +1,12 @@
-interface SideNavIcon {
+interface SideNavIconProps {
   path: string;
   className: string;
 }
 
-export const SideNavIcon: React.FC<SideNavIcon> = ({ path, className }) => {
+export const SideNavIcon: React.FC<SideNavIconProps> = ({
+  path,
+  className,
+}) => {
   return (
     <div className={className}>
       <svg
