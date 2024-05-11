@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import dancingService from '../../services/dancingService';
+import dancingService from '../../app/services/dancingService';
 import Form from '../base/Form';
 import Input from '../base/Input';
 import Button from '../base/Button';

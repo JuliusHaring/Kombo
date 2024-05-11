@@ -8,11 +8,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
       colors: {
         'beige': {
           '50': '#f9f9ed',
@@ -26,19 +21,18 @@ const config: Config = {
           '800': '#68532b',
           '900': '#5a4629',
           '950': '#332615',
-      },
-        // a common hex code for beige, used as a soft background
+        },
         playfulRed: {
-          500: '#ff4757',  // a vibrant, playful red
-          600: '#e84118',  // slightly darker shade for hover or active states
+          '500': '#ff4757',  // a vibrant, playful red
+          '600': '#e84118',  // slightly darker shade for hover or active states
         },
         darkGreen: {
-          500: '#1e4d2b',  // a medium dark green, good for contrast against lighter shades
-          600: '#123d25',  // darker for more depth or UI interaction
+          '500': '#1e4d2b',  // a medium dark green, good for contrast against lighter shades
+          '600': '#123d25',  // darker for more depth or UI interaction
         },
         playfulPurple: {
-          500: '#a55eea',  // a bright, playful purple
-          600: '#8854d0',  // slightly darker for interactive elements
+          '500': '#a55eea',  // a bright, playful purple
+          '600': '#8854d0',  // slightly darker for interactive elements
         }
       }
     },
