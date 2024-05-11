@@ -1,0 +1,34 @@
+/* DanceCombinationGeneratorResult.module.css */
+.combinationElementCard {
+  position: relative; /* Needed for absolute positioning of the pseudo-element */
+}
+
+.combinationElementCard::after {
+  content: ''; /* Required for the pseudo-element to show */
+  position: absolute;
+  top: 50%; /* Center vertically */
+  right: -20px; /* Position the line just outside the card */
+  width: 20px; /* Width of the line */
+  height: 2px; /* Thickness of the line */
+  background-color: black; /* Color of the line */
+  transform: translateY(-50%); /* Ensure it's centered vertically */
+}
+
+.combinationElementCard::before {
+  content: ''; /* Required for the pseudo-element to show */
+  position: absolute;
+  top: 50%; /* Center vertically */
+  left: -20px; /* Position the line just outside the card */
+  width: 20px; /* Width of the line */
+  height: 2px; /* Thickness of the line */
+  background-color: black; /* Color of the line */
+  transform: translateY(-50%); /* Ensure it's centered vertically */
+}
+
+.combinationElementCard:first-child::before {
+  display: none;
+}
+
+.combinationElementCard:last-child::after {
+  display: none;
+}

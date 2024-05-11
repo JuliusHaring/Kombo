@@ -4,10 +4,12 @@ import { Header } from '../base/Header';
 
 interface CombinationElementProps {
   element: PublicTables['combination_elements']['Row'];
+  className: string;
 }
 
 const CombinationElementCard: React.FC<CombinationElementProps> = ({
   element,
+  className,
 }) => {
   function getColorByType(
     element: PublicTables['combination_elements']['Row'],
@@ -25,7 +27,9 @@ const CombinationElementCard: React.FC<CombinationElementProps> = ({
   }
 
   return (
-    <div className={`mb-4 rounded-lg p-4 shadow-lg ${getColorByType(element)}`}>
+    <div
+      className={`mb-4 rounded-lg p-4 shadow-lg ${getColorByType(element)} ${className}`}
+    >
       <div className="w-full">
         <Header className="rounded-lg p-2 shadow-inner" size="6">
           {element.name}
