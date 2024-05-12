@@ -69,7 +69,7 @@ const Metronome = () => {
   };
 
   return (
-    <div className="mt-4 rounded-lg border p-4 shadow">
+    <div>
       <Input
         label="BPM"
         type="number"

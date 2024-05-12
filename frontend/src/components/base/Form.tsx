@@ -9,7 +9,7 @@ interface FormProps {
 
 const Form: React.FC<FormProps> = ({ children, onSubmit, className }) => {
   return (
-    <form onSubmit={onSubmit} className={`w-full max-w-lg ${className}`}>
+    <form onSubmit={onSubmit} className={`${className}`}>
       {children}
     </form>
   );

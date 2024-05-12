@@ -1,18 +1,20 @@
 import { PublicTables } from '@/app/types/database.types';
 import CombinationElementCard from './CombinationElementCard';
 import styles from './Combination.module.css';
+import { Header } from '../base/Header';
 
 // components/Combination.tsx
 interface Props {
-  combination: any; // Define a more specific type based on what the API returns
+  combination: any;
+  className: string;
 }
 
-const Combination: React.FC<Props> = ({ combination }) => {
+const CombinationResults: React.FC<Props> = ({ combination, className }) => {
   if (!combination) return null; // Or some placeholder indicating no data
 
   return (
-    <div className="mt-4 rounded-lg border p-4 shadow">
-      <h2 className="text-lg font-bold">Generated Combination Result:</h2>
+    <div className={`${className}`}>
+      <Header size="2">Generated Combination Result:</Header>
       <div className="grid grid-cols-4 gap-10">
         {combination.map(
           (
@@ -31,4 +33,4 @@ const Combination: React.FC<Props> = ({ combination }) => {
   );
 };
 
-export default Combination;
+export default CombinationResults;

@@ -35,7 +35,7 @@ const CombinationGenerator: React.FC<Props> = ({ danceId, setCombination }) => {
   };
 
   return (
-    <Form onSubmit={handleGenerate} className="space-y-4">
+    <Form onSubmit={handleGenerate}>
       <Input
         label="Length"
         type="number"
