@@ -17,7 +17,7 @@ export class GenerationService {
     await this.dancingService.checkDanceExists(danceId);
 
     let combination: Combination = [];
-    let lastType: string = null;
+    let lastType: CombinationElementType = null;
 
     while (combination.length < length) {
       let nextType: CombinationElementType =
@@ -46,14 +46,19 @@ export class GenerationService {
     return combination;
   }
 
-  private determineNextType(lastType: string): CombinationElementType {
-    if (lastType === 'transition') {
-      return 'move';
-    } else {
-      return getRandomElement(
-        ['move', 'position', 'transition'],
-        [0.75, 0.1, 0.15],
-      );
+  private determineNextType(
+    lastType: CombinationElementType,
+  ): CombinationElementType {
+    switch (lastType) {
+      case 'transition':
+        return 'position';
+      case 'position':
+        return getRandomElement(['transition', 'move'], [0.3, 0.7]);
+      default:
+        return getRandomElement(
+          ['move', 'position', 'transition'],
+          [0.75, 0.1, 0.15],
+        );
     }
   }
 
