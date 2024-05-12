@@ -47,11 +47,9 @@ export class GenerationService {
   }
 
   private determineNextType(lastType: string): CombinationElementType {
-    // Determines the type of the next element based on the last element's type
-    if (lastType === 'position') {
-      return 'transition'; // A transition must follow a position
+    if (lastType === 'transition') {
+      return 'move';
     } else {
-      // Randomly decide between 'move', 'position', and 'transition', with more bias towards 'move'
       return getRandomElement(
         ['move', 'position', 'transition'],
         [0.75, 0.1, 0.15],
