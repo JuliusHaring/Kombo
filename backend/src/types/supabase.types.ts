@@ -11,24 +11,27 @@ export type Database = {
     Tables: {
       combination_element_constraints: {
         Row: {
-          dance_id: number | null;
-          element_1: number | null;
-          element_2: number | null;
+          dance_id: number;
+          element_1: number;
+          element_2: number;
           id: number;
+          is_positive: boolean;
           user_id: string | null;
         };
         Insert: {
-          dance_id?: number | null;
-          element_1?: number | null;
-          element_2?: number | null;
+          dance_id: number;
+          element_1: number;
+          element_2: number;
           id?: number;
+          is_positive: boolean;
           user_id?: string | null;
         };
         Update: {
-          dance_id?: number | null;
-          element_1?: number | null;
-          element_2?: number | null;
+          dance_id?: number;
+          element_1?: number;
+          element_2?: number;
           id?: number;
+          is_positive?: boolean;
           user_id?: string | null;
         };
         Relationships: [
@@ -40,24 +43,24 @@ export type Database = {
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'combination_element_constraints_user_id_fkey';
-            columns: ['user_id'];
-            isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'fk_element1';
+            foreignKeyName: 'combination_element_constraints_element_1_fkey';
             columns: ['element_1'];
             isOneToOne: false;
             referencedRelation: 'combination_elements';
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'fk_element2';
+            foreignKeyName: 'combination_element_constraints_element_2_fkey';
             columns: ['element_2'];
             isOneToOne: false;
             referencedRelation: 'combination_elements';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'combination_element_constraints_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
             referencedColumns: ['id'];
           },
         ];

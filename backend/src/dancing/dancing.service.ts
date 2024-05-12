@@ -29,14 +29,14 @@ export class DancingService {
   }
 
   public async getElementsForDance(
-    danceId: PublicTables['dances']['Row']['id'],
-    type: CombinationElementType,
+    danceId: number,
+    type: string,
     difficulty: number = 1,
-    previousId: PublicTables['dances']['Row']['id'] = null,
+    previousId?: number,
   ): Promise<PublicTables['combination_elements']['Row'][]> {
     await this.checkDanceExists(danceId);
 
-    // Query to fetch all elements of a specific type
+    // Initial query to fetch elements of the specific type and difficulty
     let query = this.supabaseService.client
       .from('combination_elements')
       .select('*')
@@ -44,16 +44,38 @@ export class DancingService {
       .eq('type', type)
       .lte('difficulty', difficulty);
 
-    // If a previous element is specified, filter based on constraints
     if (previousId) {
-      // Fetch constraints that apply to the previous element
-      const { data, error } = await this.supabaseService.client
-        .from('combination_element_constraints')
-        .select('*')
-        .eq('element_1', previousId);
+      // Fetch constraints that involve the previous element
+      const { data: constraintsData, error: constraintsError } =
+        await this.supabaseService.client
+          .from('combination_element_constraints')
+          .select('*')
+          .or(`element_1.eq.${previousId},element_2.eq.${previousId}`);
 
-      // Exclude any forbidden elements if no required elements are specified
-      query = query.not('id', 'in', `(${data.map((el) => el.element_2)})`);
+      if (constraintsError) throw constraintsError;
+
+      const forbiddenElements = constraintsData
+        .filter(
+          (constraint) =>
+            !constraint.is_positive && constraint.element_1 === previousId,
+        )
+        .map((constraint) => constraint.element_2);
+
+      const requiredElements = constraintsData
+        .filter(
+          (constraint) =>
+            constraint.is_positive && constraint.element_1 === previousId,
+        )
+        .map((constraint) => constraint.element_2);
+
+      if (requiredElements.length > 0) {
+        // Include only required elements if there are any
+        query = query.in('id', requiredElements);
+      }
+      if (forbiddenElements.length > 0) {
+        // Exclude forbidden elements if no required elements are specified
+        query = query.not('id', 'in', `(${forbiddenElements})`);
+      }
     }
 
     const { data, error } = await query;

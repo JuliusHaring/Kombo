@@ -7,7 +7,6 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { CombinationElementConstraintCreationDto } from 'src/types/dtos';
-import { AllowUnauthorizedRequest } from 'src/auth/allow-unauthorized-requests';
 import { ConstraintsService } from './constraints.service';
 import { PublicTables } from 'src/types/database.types';
 
