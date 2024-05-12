@@ -62,7 +62,7 @@ export class GenerationService {
   private determineNextElement(
     applicableElements: PublicTables['combination_elements']['Row'][],
   ): PublicTables['combination_elements']['Row'] {
-    if (applicableElements.some((el) => Number.isNaN(el.redancability))) {
+    if (applicableElements.some((el) => !el.redancability)) {
       return getRandomElement(applicableElements);
     } else {
       return getRandomElement(
