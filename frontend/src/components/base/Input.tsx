@@ -7,6 +7,8 @@ interface InputProps {
   value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
+  min?: number;
+  max?: number;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -15,6 +17,8 @@ const Input: React.FC<InputProps> = ({
   value,
   onChange,
   className,
+  min,
+  max,
 }) => {
   return (
     <div className={`mb-4 flex flex-col ${className}`}>
@@ -24,6 +28,8 @@ const Input: React.FC<InputProps> = ({
         value={value}
         onChange={onChange}
         className="rounded-md border-2 border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
+        min={min}
+        max={max}
       />
     </div>
   );
